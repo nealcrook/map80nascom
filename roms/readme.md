@@ -1,6 +1,6 @@
 The roms folder is used to keep all the Z80 code needed to run the emulator.
 
-The .nal and .nas are Nascom ascii format files, not sure whey some as .nal.
+The .nal and .nas are Nascom ascii format files, not sure why some as .nal.
 
 The current files are:
 
