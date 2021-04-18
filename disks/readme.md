@@ -1,5 +1,5 @@
 #Floppy discs
-#------------
+------------
 
 The format of the floppy disc image is specified in the .config file.
 
@@ -9,8 +9,8 @@ The format of this file is similar to the Flash Floppy IMG.CFG file used for the
 
 although not all the options have been implimented.
 
-#The disks provided
--------------------
+# The disks provided
+--------------------
 
 * PD000.config  - Polydos 2 boot disk
 * PD600.config  - Polydos 2 program disk
@@ -20,7 +20,7 @@ although not all the options have been implimented.
 
 
 #Config file Parameters
-#----------------------
+----------------------
 
 Comments can be included by the first non space entry on the line being a #
 
