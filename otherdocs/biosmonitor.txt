@@ -1,0 +1,36 @@
+Map80 Nascom Emulator
+
+#Bios Monitor
+#------------
+
+The bios monitor can be run before or after running the Z80 emulator and it provides a means of looking at, and amending the RAM being used by the emulator.
+
+To activate the biosmonitor use the -x option when calling the emulator. It will bring up the 2 windows and load all the files as per a normal run, 
+but it will then show the Bios: prompt.
+NOTE:- you may have to ensure the terminal window is the acrive window before any commands can be used.
+
+Note:- at present the disaply windows are not refreshed whilst in bios monitor.
+
+The commands are similar to those used by the NASSYS 3 monitor.
+
+The bios program commands are
+
+D xxxx YYYY
+    disassembles the code from address xxxx to yyyy
+
+E xxxx 
+    to start Z80sim from address xxxx 
+
+O xx yy
+    output value yy on 'port' xx 
+
+Q xx
+    query input from 'port' xx 
+
+T xxxx yyyy
+    output memory from address xxxx to yyyy
+
+X 
+    to exit to the terminal.
+    
+

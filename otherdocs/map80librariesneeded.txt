@@ -1,0 +1,31 @@
+If you try and run it you might get 
+bash: permissions denied
+This normally means one of the libraries is missing 
+
+You can see if libraries needed by using ldd map80nascom
+
+On a clean install on ubuntu 20.04.2 LTS I need to get the following to "make" the program
+
+sudo apt-get install libsdl2-2.0-0
+sudo apt-get install libsdl2-dev
+sudo apt install make
+sudo apt install gcc
+
+not sure if this was needed needed :-
+sudo apt-get install libsdl2-image-2.0-0
+
+
+the program should well run using ./map80nascom
+
+if not do 
+make clean
+make 
+
+and it should build a new one.
+
+David Allday 
+Febrary 2021
+
+
+
+

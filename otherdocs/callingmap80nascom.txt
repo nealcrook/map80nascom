@@ -1,0 +1,55 @@
+calling  map80nascom - do it from command line.
+
+Note:- the 2 emulator windows will appear at the top of the screen, so ensure you command line is at the bottom or to the right.
+once called you can exit it by pressing F4 - but make sure that one of the emulator windows are selected.
+If in the command line window press cntrl + c 
+or just close the emulator window.
+
+Use ./map80nascom -? to get all the options 
+
+To run with NASSYS3 just do 
+
+./map80nascom
+
+This will load  
+    roms/nassys3.nas - into the Nascom 2 rom space
+    roms/vfcrom0.nas - into the VFC rom space
+and then run NASSYS3
+
+To load additional .nas files into memory just list then after the program and options 
+./map80nascom -v progs/clock.nas progs/clkwr.nas
+
+You can load a .cas file by using the -i option and then using the R option once in NASSYS3
+ 
+./map80nascom -v -i progs/clock.cas
+
+Note - it does not keep the file open so you can replace the file and then use F3 to restart a new file.
+You can also use ln to link a dummy file to the actual input file you want to use.
+
+call ./map80nascom -v -i serial.cas
+then 
+ln -s progs/clkwr.cas serial.cas
+do a R in nassys
+then
+rm serial
+ln -s progs/clock.cas serial.cas
+do F3 in nassys
+do a R in nassys
+
+
+to mount 2 polydos floppies
+./map80nascom roms/PolyDos_2_Boot_ROM.rom -f disks/PD000.config -f disks/PD600.config 
+
+    once in NASSYS3  do ED000
+        and reply 0 to which drive?
+        you can do DIR and DIR :1
+    NOTE:- sometimes the keyboard gets a bit picky about displaying the : still working on that.
+
+to mount cpm 
+./map80nascom -b -f disks/cpm001system22.config
+
+./map80nascom -b -f disks/cpm3seq.config 
+
+
+
+

@@ -1,0 +1,18 @@
+These are the assembler and link options used in the make file
+
+gcc options 
+
+gcc -std=c99 -O2 -Wall -Wno-parentheses -I/usr/include/SDL2 -D_REENTRANT   -c -o map80nascom.o map80nascom.c
+
+    
+gcc 
+-std=c99             1999 ISO C lanagagr standard 
+-O2                  optimize code for more speed
+-Wall                all the warning options active
+-Wno-parentheses     except for parentheses
+-I/usr/include/SDL2  search this folder for includes
+-D_REENTRANT         tells the compiler to use the declarations (functions, types, ...) necessary for thread usage.
+-c                   Compile or assemble the source files, but do not link.
+-o map80nascom.o     object file name 
+map80nascom.c        source file to compile
+
