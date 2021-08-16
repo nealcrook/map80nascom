@@ -359,7 +359,11 @@ int MAP80nascomMonitor(char * FirstCommand){
                              "\n");
                             
                         FASTWORK Retval=simz80(pc, t_sim_delay, sim_delay);
-                        
+
+                        // On return from simulator, refresh the screen one last
+                        // time, in order to see any final output eg before a HALT
+                        sim_delay();
+
                         if (usebiosmonitor==0){
                             return 0;
                         }
@@ -388,6 +392,8 @@ int MAP80nascomMonitor(char * FirstCommand){
                         break;
                     
                 }
+                // a BIOS command may cause the display to change, so update it
+                sim_delay();
             }
         }
     }
