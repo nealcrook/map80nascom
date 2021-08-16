@@ -1803,7 +1803,7 @@ static void readASector(unsigned int command){
 static void writeASector(int currentdrivenumber, 
                          unsigned int tracknumber, 
                          unsigned int side,
-                         unsigned int sectornumber)
+                         unsigned int sectornumber){
                         
     FILE * filepointer=NULL;
     // reset status register
