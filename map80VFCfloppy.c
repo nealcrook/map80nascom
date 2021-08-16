@@ -122,8 +122,8 @@ static void clearStatusIndcators();
 static void readASector(unsigned int command);
 static void writeASector(int currentdrivenumber, 
                          unsigned int tracknumber, 
-                         unsigned int sectornumber,
-                         unsigned int side);
+                         unsigned int side,
+                         unsigned int sectornumber);
 
 static void readAddress(unsigned int command);
 static void showFloppySector();
@@ -1802,8 +1802,8 @@ static void readASector(unsigned int command){
 
 static void writeASector(int currentdrivenumber, 
                          unsigned int tracknumber, 
-                         unsigned int sectornumber,
-                         unsigned int side){
+                         unsigned int side,
+                         unsigned int sectornumber)
                         
     FILE * filepointer=NULL;
     // reset status register
