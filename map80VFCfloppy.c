@@ -60,18 +60,20 @@ static int floppyWriteFailWriteProtected = 0; // set to 1 if write failed becaus
 
 
 
-// NOTE:- Track positions
-// There are 2 separate values
-// There is what the 1797 chip thinks the track number is (floppyTrackRegister)
-// There is where the real head is on that floppy floppyDrives[].track
-// These may or maynot agree with each other especially after switching drives
+// There are 2 separate values for track positions:
+// - what the 1797 chip thinks the track number is: floppyTrackRegister
+// - where the real head is on that floppy: floppyDrives[].track
+// These may or may not match, especially after switching drives
 //
 // registers inside the 1797 floppy control chip
-//unsigned int floppyStatusRegister; // status register is dynamically build on each call
-                                     // from the individula status bits above
+// (the status register is dynamically built on each call, from the individual status bits above)
 static unsigned int floppyTrackRegister;
 static unsigned int floppySectorRegister;
 static unsigned int floppyDataRegister;
+// floppyTrackRegister, floppySectorRegister, floppySide and floppyActiveDrive are globals representing 1797 state and used
+// by the readASector/writeASector routines.
+static unsigned int floppySide = 0;         // set to side by type II and III commands
+static int floppyActiveDrive = 0;           // assume drive 0 is selected by default ?
 
 // TODO remove position of the head on tracks
 //unsigned int floppyPhysicalTrackPosition;
@@ -82,13 +84,10 @@ static unsigned int floppyDataRegister;
 // and current track position for that drive
 static FLOPPYDRIVEINFO floppyDrives[NUMBEROFDRIVES];   // drives 0 to 4
 
-static int floppyActiveDrive = 0;    // assume drive 0 is selected by default ?
-
 static int floppyMaxTrackNumber=79; // tracks 0 to 79 - the hardware device only has 80 tracks????
 
 static unsigned int floppyStepDirection=1;  // set to seek direction of last call
                                      // default to step in is away from track 0
-static unsigned int floppySide = 0;         // set to side by type II and III commands
 
 static char floppyBuffer[FLOPPYMAXSECTORSIZE];         // buffer to hold latest sector
 static unsigned int floppyBufferPosition=0;              // position in buffer for read or write
@@ -120,11 +119,7 @@ static int floppyReadDrivePort(); // call to read Drive port ( DRQ, INTRQ and RE
 //void setTypeIStatusRegister();
 static void clearStatusIndcators();
 static void readASector(unsigned int command);
-static void writeASector(int currentdrivenumber, 
-                         unsigned int tracknumber, 
-                         unsigned int side,
-                         unsigned int sectornumber);
-
+static void writeASector(void);
 static void readAddress(unsigned int command);
 static void showFloppySector();
 static void displayBuffer(char buffer[], int length );
@@ -1215,10 +1210,8 @@ static int floppySetData(unsigned int value){
                                         floppyTrackRegister, floppyActiveDrive, floppyDrives[floppyActiveDrive].track);
                     }
                     else {
-                        writeASector(floppyActiveDrive, 
-                                     floppyTrackRegister,
-                                     floppySide,
-                                     floppySectorRegister);
+                        // all good
+                        writeASector();
                     }
                 }
                 else { // invalid floppy number
@@ -1703,10 +1696,8 @@ static void readAddress(unsigned int command){
     }
 }
 
-// read a sector
-// loads the correct sector into the buffer area
-// Sector sepcified by floppyTrackRegister, floppySide, floppySectorRegister
-// and set up the data read process
+// Read a sector from floppyActiveDrive at floppyTrackRegister, floppySectorRegister, floppySide.
+// Loads the correct sector into the buffer area and sets up the data read process
 static void readASector(unsigned int command){
     // TODO should really check that the tracks match but . . .
     // reset status register
@@ -1797,14 +1788,10 @@ static void readASector(unsigned int command){
 
 }
 
-// Write a sector
+// Write a sector to floppyActiveDrive at floppyTrackRegister, floppySectorRegister, floppySide.
 // Saves the correct sector from the buffer area
+static void writeASector(void){
 
-static void writeASector(int currentdrivenumber, 
-                         unsigned int tracknumber, 
-                         unsigned int side,
-                         unsigned int sectornumber){
-                        
     FILE * filepointer=NULL;
     // reset status register
     floppyInteruptRequest=1;   // set will show if error
